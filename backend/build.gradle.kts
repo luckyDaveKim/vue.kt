@@ -20,7 +20,12 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testCompile("org.springframework.boot:spring-boot-starter-test") {
+		exclude(module = "junit")
+	}
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
+	testCompile("org.junit.jupiter:junit-jupiter-params")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.withType<KotlinCompile> {
@@ -28,4 +33,8 @@ tasks.withType<KotlinCompile> {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
 	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
 }
